@@ -11,6 +11,7 @@ The go language has a robust standard library that supports building microservic
 
 # Some Useful Bookmarks Discovered Along the Way
 
+[Ardan Labs - William Kennedy (Is a Beast)](https://github.com/ardanlabs/gotraining)<br />
 [Slice Tricks](https://github.com/golang/go/wiki/SliceTricks#insertvector)<br />
 [Arrays](https://www.openmymind.net/The-Minimum-You-Need-To-Know-About-Arrays-And-Slices-In-Go/)<br />
 [JSON to Go Struct](https://github.com/ChimeraCoder/gojson)<br />
