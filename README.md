@@ -11,14 +11,14 @@ The go language has a robust standard library that supports building microservic
 
 # Some Useful Bookmarks Discovered Along the Way
 
-[Slice Tricks](https://github.com/golang/go/wiki/SliceTricks#insertvector)
-[Arrays](https://www.openmymind.net/The-Minimum-You-Need-To-Know-About-Arrays-And-Slices-In-Go/)
-[JSON to Go Struct](https://github.com/ChimeraCoder/gojson)
-[Embed static files](https://tech.townsourced.com/post/embedding-static-files-in-go/)
-[Windows Encoding Util](https://github.com/TomOnTime/utfutil/)
-[Learn by Doing - Great Go repo](https://github.com/GoesToEleven/golang-web-dev?files=1)
-[Serving Static Files](https://www.alexedwards.net/blog/serving-static-sites-with-go)
-[HTTP Handler Wrapping](https://medium.com/@matryer/the-http-handler-wrapper-technique-in-golang-updated-bc7fbcffa702)
-[Web Dev in Go](https://github.com/astaxie/build-web-application-with-golang/blob/master/en/preface.md)
-[Working with Files](https://www.devdungeon.com/content/working-files-go)
-[Curated List of Go Resources](https://oxozle.com/awetop/avelino-awesome-go/)
+[Slice Tricks](https://github.com/golang/go/wiki/SliceTricks#insertvector)<br />
+[Arrays](https://www.openmymind.net/The-Minimum-You-Need-To-Know-About-Arrays-And-Slices-In-Go/)<br />
+[JSON to Go Struct](https://github.com/ChimeraCoder/gojson)<br />
+[Embed static files](https://tech.townsourced.com/post/embedding-static-files-in-go/)<br />
+[Windows Encoding Util](https://github.com/TomOnTime/utfutil/) <br />
+[Learn by Doing - Great Go repo](https://github.com/GoesToEleven/golang-web-dev?files=1)<br />
+[Serving Static Files](https://www.alexedwards.net/blog/serving-static-sites-with-go)<br />
+[HTTP Handler Wrapping](https://medium.com/@matryer/the-http-handler-wrapper-technique-in-golang-updated-bc7fbcffa702)<br />
+[Web Dev in Go](https://github.com/astaxie/build-web-application-with-golang/blob/master/en/preface.md)<br />
+[Working with Files](https://www.devdungeon.com/content/working-files-go)<br />
+[Curated List of Go Resources](https://oxozle.com/awetop/avelino-awesome-go/)<br />
