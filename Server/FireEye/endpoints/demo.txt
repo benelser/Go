@@ -1,0 +1,149 @@
+// package main
+
+// import(
+// 	. "./FireEye/Endpoints"
+// 	// "./PowerShell/Utils"
+// 	"fmt"
+// 	//"./Utils"
+// 	"sync"
+// )
+
+// // Build "files.go" using the following command: staticfiles -o PowerShell/PowerShellScripts.go PowerShell/Scripts
+// // Move to Scripts dir and rename package to PowerShellScripts
+// func main()  {
+// 	//  Create wait group
+// 	var wg sync.WaitGroup
+// 	wg.Add(2)
+
+// 	// Define a FireEye Server
+// 	server := Server{
+// 		Token : "",
+// 		RootURI : "",
+// 		IP : "192.168.1.1",
+// 		Port : "3000",
+// 		Username : "USERNAME",
+// 		Password : "PASSWORD",
+// 	}
+
+// 	// Connect to server and get token and set rootURI
+// 	err := Connect(&server)
+// 	if err != nil {
+// 		fmt.Printf("The HTTP request failed with error %s\n", err)
+// 	}
+
+// 	liveHosts := GetLiveHosts(&server)
+// 	fmt.Printf("Count of FireEye Hosts: %v\r\n", len(liveHosts))
+	
+// 	// Get policy we want the exclusions from
+// 	policy, err := GetPolicyByName(&server, "Agent Default policy")
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+
+// 	// PULL OUT DATA WE WANT 
+// 	// // Malware Protection exclusions
+// 	MPexcludedProcesses := policy.Categories.MalwareProtection.ExcludedProcesses
+// 	MPexludedMD5s := policy.Categories.MalwareProtection.ExcludedMD5S
+// 	MPsxcludedFiles := policy.Categories.MalwareProtection.ExcludedFiles
+
+// 	// // // ExploitGuard Protection exlusions
+// 	EGexcludedMD5S := policy.Categories.ExploitGuardProtection.ExcludedMD5S
+// 	EGexcludedFiles := policy.Categories.ExploitGuardProtection.ExcludedFiles
+// 	EGexcludedPaths := policy.Categories.ExploitGuardProtection.ExcludedPaths
+
+// 	// // // RealTime Indicator Detection Protection exlusions
+// 	RIDexcludedPaths := policy.Categories.RealTimeIndicatorDetection.ExcludedPaths
+// 	RIDexcludedProcesses := policy.Categories.RealTimeIndicatorDetection.ExcludedProcessNames
+
+// 	Get teste policy we want to update to edit the policy object
+// 	testPolicy, err := GetPolicyByName(&server, "MalwareGuard Test Set")
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+
+
+// 	// Get Policy response object that can be updated and satisfy the API
+// 	testPolicyToBeUpdated, _ := GetPolicyByID(&server, testPolicy.ID)
+
+// 	// Update policy props with ones pulled from default policy
+// 	testPolicyToBeUpdated.Data[0].Categories.MalwareProtection.ExcludedProcesses = MPexcludedProcesses
+// 	testPolicyToBeUpdated.Data[0].Categories.MalwareProtection.ExcludedMD5S = MPexludedMD5s
+// 	testPolicyToBeUpdated.Data[0].Categories.MalwareProtection.ExcludedFiles = MPsxcludedFiles
+// 	testPolicyToBeUpdated.Data[0].Categories.ExploitGuardProtection.ExcludedMD5S = EGexcludedMD5S
+// 	testPolicyToBeUpdated.Data[0].Categories.ExploitGuardProtection.ExcludedFiles = EGexcludedFiles
+// 	testPolicyToBeUpdated.Data[0].Categories.ExploitGuardProtection.ExcludedPaths = EGexcludedPaths
+// 	testPolicyToBeUpdated.Data[0].Categories.RealTimeIndicatorDetection.ExcludedPaths = RIDexcludedPaths
+// 	testPolicyToBeUpdated.Data[0].Categories.RealTimeIndicatorDetection.ExcludedProcessNames = RIDexcludedProcesses
+
+// 	Push newly created policy object to API
+// 	UpdatePolicy(&server, &testPolicyToBeUpdated, testPolicy)
+
+// 	e := UpdatePolicy(&server, testPolicy)
+// 	if err != nil{
+// 		fmt.Printf("Policy update error: %v", e)
+// 	}
+
+
+// 	Demo some API Calls Serially/Sychronously 
+// 	fmt.Println("Running Serial function")
+// 	version, _ := GetVersion(&server)
+// 	fmt.Printf("\nVersion: %v\n", version.Data.Version)
+
+// 	success := NewIndicator(&server, "Bens Test", "Description data here")
+// 	if success != 1 {
+// 		fmt.Println("Something went wrong")
+// 	}
+
+// 	hostSetID, err := GetHostSetIDByName(&server, "Update")
+// 	if err != nil{
+// 		fmt.Printf("HostSet doesn't appear to exist\r\n")
+// 	}
+// 	fmt.Printf("HostSetID: %v\r\n", hostSetID)
+
+// 	hostID, err := GetHostIDByHostName(&server, "SOMECOMPUTERNAME")
+// 	if err != nil{
+// 		fmt.Printf("The host doesn't appear to exist")
+// 	}
+// 	fmt.Printf("HostID: %v\r\n", hostID)
+
+// 	fmt.Printf("# of items in CSV: %v\r\n", len(Utils.ReadCSV("C:\\Some.csv", true)))
+// 	testComputers := Utils.ReadCSV("C:\\Some.csv", true)
+
+// 	hostSetIDTest, _ := GetHostSetIDByName(&server, "BensTest")
+// 	hostNotFound, err := UpdateStaticHostSet(&server, testComputers, hostSetIDTest, "BensTest")
+// 	if err != nil{
+// 		fmt.Printf("%v\r\n", err)
+// 	}
+
+// 	fmt.Printf("Amount not found: %v\r\n", len(hostNotFound))
+// 	Stage channels to read data back from threads
+// 	ADComputersChannelResponse := make(chan PowerShell.ADComputers)
+// 	liveHostsChannelReponse := make(chan []string)
+	
+// 	// Fire off Go Routines ***Multi-Thread / ASYNC / Concurrent code
+// 	fmt.Println("Firing off Go Routines......")
+// 	go func() { 
+// 		defer wg.Done()
+// 		ADComputersChannelResponse <- PowerShell.GetADComputers()
+// 	}()
+
+// 	go func() { 
+// 		defer wg.Done()
+// 		liveHostsChannelReponse <- GetLiveHosts(&server)
+// 	}()
+
+// 	fmt.Println("After Go routine...Doing more work")
+
+// 	// Wait for all routines to finish
+// 	adComputers := <- ADComputersChannelResponse
+// 	fmt.Printf("Count of AD Computers: %v\r\n", adComputers.Count)
+
+
+// 	liveHosts := <- liveHostsChannelReponse
+// 	fmt.Printf("Count of FireEye Hosts: %v\r\n", len(liveHosts))
+
+// 	wg.Wait()
+
+// 	diff := Utils.Difference(adComputers.Computers, liveHosts)
+// 	fmt.Printf("Diff Count is: %v\r\n", len(diff))
+// }
